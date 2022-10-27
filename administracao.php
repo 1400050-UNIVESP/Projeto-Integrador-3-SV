@@ -1,0 +1,137 @@
+<?php
+session_start();
+
+// Verifique se o usuário está logado, se não, redirecione-o para uma página de login
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+	header("location: login.php");
+	exit;
+}
+include "conectar2.php";
+
+if ($con->connect_error) {
+	die("A conexão falhou: " . $con->connect_error);
+}
+
+$sql = "SELECT id, username, email, nivel FROM users";
+$result = $con->query($sql);
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8" />
+	<title> Administrador</title>
+	<link rel="stylesheet" type="text/css" href="_css/estilo2.css" />
+</head>
+
+<body>
+	<div id="interface">
+		<header id="cabecalho">
+			<hgroup>
+				<h1>CADASTRO DE USUÁRIOS</h1>
+				<h2>Sr(a) Administrador(a), ao realizar Alterações digitar todos os campos do Usuário</h2>
+			</hgroup>
+			<nav id="menu">
+				<h1>Menu Principal</h1>
+				<ul>
+					<li><a onclick="alterarUsuario()">Alterar</a></li>
+					<li><a onclick="deletarUsuario()">Deletar</a></li>
+					<li><a href="welcome2.php">Voltar</a></li>
+				</ul>
+				</ul>
+			</nav>
+			<div class="tabela_usuarios">
+				<?php
+
+				if ($result !== false && $result->num_rows > 0) {
+					echo '
+				<table border="1" cellspacing="2" cellpadding="3" style="width: 60%">
+					<tr>
+						<th>Id</th>
+						<th>Usuário</th>
+						<th>Usuário=0   Administrador=1</th>
+						<th>e-mail</th>
+					</tr>
+				';
+					while ($row = $result->fetch_assoc()) {
+						echo '
+						<tr> 
+							<td>' . $row['id'] . '</td> 
+							<td>' . $row['username'] . '</td> 
+							<td>' . $row['nivel'] . '</td> 
+							<td>' . $row['email'] . '</td> 													
+						</tr>';
+					}
+					echo "</table>";
+				} else {
+					echo "Não há registros";
+				}
+				$con->close();
+				
+				?>
+				
+				<!-- UPDATE -->
+				<form class="row g-3" id="alterar_usuario_formulario" action="alterar_usuario.php" method="POST" style="display: none;">
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="idUpdate" placeholder="Id">
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="usernameUpdate" placeholder="Usuário">
+					</div>
+					<div class="col-md-6">
+						<textarea class="form-control" type="text" name="nivelUpdate" placeholder="Usuário - Administrador"></textarea>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="emailUpdate" placeholder="e-mail">
+					</div>
+					<div class="col-md-6">
+						<input class="botao alterar_usuario" type="submit" value="Alterar">
+					</div>
+				</form>
+				<!-- DELETE -->
+				<form class="row g-3" id="deletar_usuario_formulario" action="deletar_usuario.php" method="POST" style="display: none;">
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="consultadelete" placeholder="Id">
+					</div>
+					<div class="col-md-6">
+						<input class="botao cadastrar_usuario" type="submit" value="Deletar">
+					</div>
+				</form>
+			</div>
+		</header>
+	</div>
+	<script>
+		
+		function alterarUsuario() {
+			var usuarioForm = document.getElementById("alterar_usuario_formulario");
+			usuarioForm.classList.toggle("visible");
+
+			if (usuarioForm.classList.contains("visible")) {
+				usuarioForm.style.display = 'inherit';
+			} else {
+				usuarioForm.style.display = 'none';
+			}
+		}
+
+		function deletarUsuario() {
+			var usuarioForm = document.getElementById("deletar_usuario_formulario");
+			usuarioForm.classList.toggle("visible");
+
+			if (usuarioForm.classList.contains("visible")) {
+				usuarioForm.style.display = 'inherit';
+			} else {
+				usuarioForm.style.display = 'none';
+			}
+		}
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+<figure class="foto-legenda">
+		<footer id="rodape">
+			<p>Copyright &copy; 2022 - by UNIVESP - Grupo 087 - Projeto Integrador 2 - Polo Avaré, Vila Curuçá e São Vicente</p>
+		</footer>
+	</figure>
+	</div>
+</html>
