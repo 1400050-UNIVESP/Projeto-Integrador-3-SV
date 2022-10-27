@@ -72,7 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($sexo_err) && empty($idade_err) && empty($estado_civil_err) && empty($escolaridade_err) && empty($renda_err)&& empty($confirm_password_err)){
         
         // Prepare uma declaração de inserção
-        $sql = "INSERT INTO users (username, sexo, idade, estado_civil, escolaridade, email, password, nivel, renda) VALUES (:username, :sexo, :idade, :estado_civil, :escolaridade,:email, :password, :nivel, :renda)";
+        $sql = "INSERT INTO users (username, sexo, idade, estado_civil, escolaridade, email, password, nivel, renda) VALUES (:username, :sexo, :idade, :estado_civil, :escolaridade, :email, :password, :nivel, :renda)";
          
         if($stmt = $pdo->prepare($sql)){
             // Vincule as variáveis à instrução preparada como parâmetros
@@ -155,7 +155,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>     
             <div class="form-group">
                 <label>Faixa Etária</label>
-                <select id= "inserir_dados3" name ="idade">
+                <select id= "inserir_dados2" name ="idade">
                     <option></option>
                     <option value="I1">até 19 anos</option>
                     <option value="I2">entre 20 e 30 anos</option>
@@ -167,7 +167,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <label>Estado Civil</label>
-                <select id= "inserir_dados2" name ="estado_civil">
+                <select id= "inserir_dados3" name ="estado_civil">
                     <option></option>
                     <option value="S">Solteiro</option>
                     <option value="C">Casado</option>
@@ -178,7 +178,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <label>Escolaridade</label>
-                <select id= "inserir_dados3" name ="escolaridade">
+                <select id= "inserir_dados4" name ="escolaridade">
                     <option></option>
                     <option value="1">Fundamental</option>
                     <option value="2">Médio</option>
@@ -190,7 +190,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>     
             <div class="form-group">
                 <label>Renda Familiar</label>
-                <select id= "inserir_dados4" name ="renda">
+                <select id= "inserir_dados5" name ="renda">
                     <option></option>
                     <option value="E">Até 2 Salários Mínimos</option>
                     <option value="D">De 2 a 4 Salários Mínimos</option>
