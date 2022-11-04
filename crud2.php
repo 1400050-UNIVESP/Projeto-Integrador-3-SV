@@ -7,7 +7,7 @@ if ($con->connect_error) {
 	die("A conexão falhou: " . $con->connect_error);
 }
 
-$sql = "SELECT * FROM respostas";
+$sql = "SELECT * FROM alternativas";
 $result = $con->query($sql);
 
 ?>
