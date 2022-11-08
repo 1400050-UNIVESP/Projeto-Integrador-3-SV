@@ -6,6 +6,8 @@ require_once "config.php";
 $username = $password = $confirm_password = $sexo = $idade = $email = $nivel = $estado_civil = $escolaridade = $renda ="";
 $username_err = $password_err = $confirm_password_err = $sexo_err = $idade_err = $email_err = $estado_civil_err = $escolaridade_err = $renda_err= "";
 $nivel = 0;
+$certa = 0;
+$errada = 0;
 
 // Processando dados do formulário quando o formulário é enviado
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -72,7 +74,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($sexo_err) && empty($idade_err) && empty($estado_civil_err) && empty($escolaridade_err) && empty($renda_err)&& empty($confirm_password_err)){
         
         // Prepare uma declaração de inserção
-        $sql = "INSERT INTO users (username, sexo, idade, estado_civil, escolaridade, email, password, nivel, renda) VALUES (:username, :sexo, :idade, :estado_civil, :escolaridade, :email, :password, :nivel, :renda)";
+        $sql = "INSERT INTO users (username, sexo, idade, estado_civil, escolaridade, email, password, nivel, renda, certa, errada) VALUES (:username, :sexo, :idade, :estado_civil, :escolaridade, :email, :password, :nivel, :renda, :certa, :errada)";
          
         if($stmt = $pdo->prepare($sql)){
             // Vincule as variáveis à instrução preparada como parâmetros
@@ -85,6 +87,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
             $stmt->bindParam(":nivel", $param_nivel, PDO::PARAM_STR);
             $stmt->bindParam(":renda", $param_renda, PDO::PARAM_STR);
+            $stmt->bindParam(":certa", $param_certa, PDO::PARAM_STR);
+            $stmt->bindParam(":errada", $param_errada, PDO::PARAM_STR);
 
             
             // Definir parâmetros
@@ -97,7 +101,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_nivel = $nivel;
             $param_renda = $renda;
-            
+            $param_certa = $certa;
+            $param_errada = $errada;
             
             
             // Tente executar a declaração preparada
